@@ -1,5 +1,9 @@
+//#define GLEW_STATIC
+#define GLFW_DLL
+
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+
 #include <string>
 #include <cstring>
 #include <glm/glm.hpp>
@@ -88,7 +92,7 @@ int main(int argc, char ** argv)
 	GL_CALL(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0));
 
 	// Shader
-	const GLuint prog = CreateProgram("shader_vert.glsl", "shader_frag.glsl");
+	const GLuint prog = CreateProgram("./assets/shaders/shader_vert.glsl", "./assets/shaders/shader_frag.glsl");
 
 	GL_CALL(glUseProgram(prog));
 
@@ -130,6 +134,10 @@ string ReadFile(const string path)
 		{
 			fileDataStream << line << endl;
 		}
+	}
+	else
+	{
+		cout << "Could not open file: " << path << endl;
 	}
 
 	ifs.close();

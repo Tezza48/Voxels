@@ -135,7 +135,7 @@ float fractalValueNoise31(vec3 p)
 	float value = 0;
 	float amp = 0.5;
 
-	for (int i = 0, l = 3; i < l; i++)
+	for (int i = 0, l = 7; i < l; i++)
 	{
 		value += valueNoise31(p) * amp;
 		amp *= 0.5;
@@ -145,16 +145,30 @@ float fractalValueNoise31(vec3 p)
 	return value;
 }
 
+// iq
+float sdBox( vec3 p, vec3 b )
+{
+  vec3 q = abs(p) - b;
+  return length(max(q,0.0)) + min(max(q.x,max(q.y,q.z)),0.0);
+}
+
 float map(vec3 p)
 {
 //	float res = length(p - vec3(0, 0, 10)) - 1.0;
 //	return min(res, 4.0 * valueNoise31(p));
 //	return p.y;
-	return p.y - (fractalValueNoise31(vec3(p.xz / 4.0, iTime)) * 4.0);
+
+	float sph = length(p) - 1.5;
+	float cube = sdBox(p, vec3(1));
+	
+//	return max(cube, sph);
+	
+	float vol = fractalValueNoise31(p + iTime * 0.2) * 2 - 0.7;
+	return max(vol, sph) / 2;
 }
 
-#define MAX_STEPS 128
-#define MAX_DIST 100
+#define MAX_STEPS 256
+#define MAX_DIST 10
 
 float trace(vec3 ro, vec3 rd)
 {
@@ -167,6 +181,9 @@ float trace(vec3 ro, vec3 rd)
 		vec3 p = ro + rd * t;
 		float d = map(p);
 		t += d;
+//		if (d < 0) break;
+
+//		t += 0.005;
 	}
 
 	return t;
@@ -174,7 +191,7 @@ float trace(vec3 ro, vec3 rd)
 
 vec3 calcNormal(vec3 p)
 {
-	vec2 h = vec2(0.0001, 0);
+	vec2 h = vec2(0.00001, 0);
 	float d = map(p);
 	return normalize(vec3(
 		map(p + h.xyy) - d,
@@ -183,18 +200,27 @@ vec3 calcNormal(vec3 p)
 	);
 }
 
+mat3 lookAt(vec3 ro, vec3 ta)
+{
+	vec3 f = normalize(ta - ro);
+	vec3 r = cross(vec3(0, 1, 0), f);
+	vec3 u = cross(f, r);
+	return mat3(r, u, f);
+}
+
 void main() {
 	vec2 uv = fragCoord;
 	uv.x *= iResolution.x/iResolution.y;
 
-	vec3 ro = vec3(0, 4, 0);
-	vec3 rd = normalize(vec3(uv, 1.0));
-
-	float a = iTime / 4.0;
-
-	float s = sin(a), c = cos(a);
-
-	rd.xz *= mat2(c, -s, s, c);
+	vec3 ro = vec3(0, 0, -3);
+//	vec3 ro = vec3(cos(iTime) * 3, 0, sin(iTime) * 3);
+	vec3 rd = lookAt(ro, vec3(0)) * normalize(vec3(uv, 1));
+//
+//	float a = iTime / 4.0;
+//
+//	float s = sin(a), c = cos(a);
+//
+//	rd.xz *= mat2(c, -s, s, c);
 
 	float t = trace(ro, rd);
 
@@ -208,5 +234,5 @@ void main() {
 
 
 
-	color = vec4(norm, 1);
+	color = vec4(norm * 0.5 + 0.5, 1);
 }
