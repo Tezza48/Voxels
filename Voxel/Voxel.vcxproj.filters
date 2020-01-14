@@ -13,7 +13,7 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\shaders">
+    <Filter Include="Source Files\shaderAssets">
       <UniqueIdentifier>{2128fde4-e245-4e12-a545-607e8b936c3c}</UniqueIdentifier>
       <Extensions>*.glsl</Extensions>
     </Filter>
@@ -22,13 +22,66 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\shaders\shader_frag.glsl">
-      <Filter>Source Files\shaders</Filter>
+    <None Include="assets\shaders\marchedNoise_frag.glsl">
+      <Filter>Source Files\shaderAssets</Filter>
     </None>
-    <None Include="assets\shaders\shader_vert.glsl">
-      <Filter>Source Files\shaders</Filter>
+    <None Include="assets\shaders\marchedNoise_vert.glsl">
+      <Filter>Source Files\shaderAssets</Filter>
     </None>
+    <None Include="assets\shaders\hash.glsl">
+      <Filter>Source Files\shaderAssets</Filter>
+    </None>
+    <None Include="assets\shaders\marchedNoisev2_frag.glsl">
+      <Filter>Source Files\shaderAssets</Filter>
+    </None>
+    <None Include="assets\shaders\marchedNoisev2_vert.glsl">
+      <Filter>Source Files\shaderAssets</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LayoutDescription.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IBindableResource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

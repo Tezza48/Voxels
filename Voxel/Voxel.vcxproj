@@ -19,11 +19,30 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GraphicsShader.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\shaders\shader_frag.glsl" />
-    <None Include="assets\shaders\shader_vert.glsl" />
+    <None Include="assets\shaders\hash.glsl" />
+    <None Include="assets\shaders\marchedNoisev2_frag.glsl" />
+    <None Include="assets\shaders\marchedNoisev2_vert.glsl" />
+    <None Include="assets\shaders\marchedNoise_frag.glsl" />
+    <None Include="assets\shaders\marchedNoise_vert.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="common.h" />
+    <ClInclude Include="GraphicsShader.h" />
+    <ClInclude Include="IBindableResource.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="Renderer.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Shader.h" />
+    <ClInclude Include="LayoutDescription.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -80,7 +99,7 @@
     <OutDir>$(SolutionDir)build\$(Configuration)_$(Platform)\</OutDir>
     <IntDir>$(SolutionDir)build_int\$(Configuration)_$(Platform)\</IntDir>
     <LibraryPath>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget);$(LibraryPath)</LibraryPath>
-    <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)build\$(Configuration)_$(Platform)\</OutDir>
@@ -93,7 +112,7 @@
     <IntDir>$(SolutionDir)build_int\$(Configuration)_$(Platform)\</IntDir>
     <LibraryPath>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget);$(LibraryPath)</LibraryPath>
     <IncludePath>$(SolutionDir)include;$(IncludePath)</IncludePath>
-    <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)build\$(Configuration)_$(Platform)\</OutDir>

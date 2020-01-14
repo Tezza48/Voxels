@@ -1,14 +1,10 @@
 #version 460
 
-#define PI 3.14159
+// have to write the prototypes for the sake of the syntax highlighting.
+float hash21(vec2 p);
+float hash31(vec3 p);
 
-layout(location = 0) uniform vec2 iResolution;
-layout(location = 1) uniform float iTime;
-
-in vec2 fragCoord;
-
-out vec4 color;
-
+#pragma include<"hash.glsl">
 // Generate a random value from a vec2.
 float hash21(vec2 p)
 {
@@ -20,6 +16,16 @@ float hash31(vec3 p)
 {
 	return fract(sin(dot(p, vec3(302.672, 8861.772, 78123.71))) * 6614.7712);
 }
+
+#define PI 3.14159
+
+layout(location = 0) uniform vec2 iResolution;
+layout(location = 1) uniform float iTime;
+
+in vec2 fragCoord;
+in vec2 position;
+
+out vec4 color;
 
 // Ease the components of a normalized genType using a cosine function.
 #define cosEase(a) (1.0 - cos(a * PI)) / 2
@@ -135,7 +141,7 @@ float fractalValueNoise31(vec3 p)
 	float value = 0;
 	float amp = 0.5;
 
-	for (int i = 0, l = 7; i < l; i++)
+	for (int i = 0, l = 5; i < l; i++)
 	{
 		value += valueNoise31(p) * amp;
 		amp *= 0.5;
@@ -164,11 +170,12 @@ float map(vec3 p)
 //	return max(cube, sph);
 	
 	float vol = fractalValueNoise31(p + iTime * 0.2) * 2 - 0.7;
+//	return vol;
 	return max(vol, sph) / 2;
 }
 
-#define MAX_STEPS 256
-#define MAX_DIST 10
+#define MAX_STEPS 128
+#define MAX_DIST 5
 
 float trace(vec3 ro, vec3 rd)
 {
@@ -191,7 +198,7 @@ float trace(vec3 ro, vec3 rd)
 
 vec3 calcNormal(vec3 p)
 {
-	vec2 h = vec2(0.00001, 0);
+	vec2 h = vec2(0.001, 0);
 	float d = map(p);
 	return normalize(vec3(
 		map(p + h.xyy) - d,
@@ -209,18 +216,11 @@ mat3 lookAt(vec3 ro, vec3 ta)
 }
 
 void main() {
-	vec2 uv = fragCoord;
-	uv.x *= iResolution.x/iResolution.y;
+	vec2 uv = position.xy;
+	uv.x *= iResolution.x / iResolution.y;
 
 	vec3 ro = vec3(0, 0, -3);
-//	vec3 ro = vec3(cos(iTime) * 3, 0, sin(iTime) * 3);
 	vec3 rd = lookAt(ro, vec3(0)) * normalize(vec3(uv, 1));
-//
-//	float a = iTime / 4.0;
-//
-//	float s = sin(a), c = cos(a);
-//
-//	rd.xz *= mat2(c, -s, s, c);
 
 	float t = trace(ro, rd);
 
@@ -232,7 +232,7 @@ void main() {
 
 	vec3 norm = calcNormal(ro + rd * t);
 
-
+	float val = fractalValueNoise31((ro + rd * t) - iTime * 0.2);
 
 	color = vec4(norm * 0.5 + 0.5, 1);
 }
