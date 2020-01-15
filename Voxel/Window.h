@@ -5,6 +5,8 @@
 #include <GLFW/glfw3.h>
 #include <string>
 
+typedef void(*WindowSizeFN)(void* context, int width, int height);
+
 class Window
 {
 private:
@@ -12,6 +14,9 @@ private:
 
 	int width;
 	int height;
+
+	static void * sizeCallbackContext;
+	static WindowSizeFN sizeCallback;
 
 public:
 	Window() = delete;
@@ -24,6 +29,8 @@ public:
 
 	GLFWwindow * GetHandle() const;
 
+	void SetWindowResizeCallback(void * context, WindowSizeFN callback);
+
 	void SetTitle(std::string title);
 
 	bool IsInitialized() const;
@@ -33,5 +40,8 @@ public:
 	void PollEvents() const;
 
 	void SwapBuffers() const;
+
+private:
+	static void WindowSizeCallback(GLFWwindow * window, int width, int height);
 };
 

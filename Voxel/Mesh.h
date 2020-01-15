@@ -18,6 +18,7 @@ private:
 	std::vector<int> indexBufferSizes;
 
 public:
+	Mesh(const Mesh &) = delete;
 	Mesh(LayoutDescription * layouts, int numLayouts, int numIndexBuffers = 0);
 	~Mesh();
 

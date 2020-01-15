@@ -6,6 +6,9 @@ using std::cout;
 using std::endl;
 using std::string;
 
+void * Window::sizeCallbackContext;
+WindowSizeFN Window::sizeCallback;
+
 Window::Window(int width, int height, string title) : window(nullptr), width(width), height(height)
 {
 	if (!glfwInit())
@@ -42,6 +45,11 @@ Window::~Window()
 	glfwTerminate();
 }
 
+void Window::WindowSizeCallback(GLFWwindow * window, int width, int height)
+{
+	sizeCallback(sizeCallbackContext, width, height);
+}
+
 int Window::GetWidth() const
 {
 	return width;
@@ -55,6 +63,13 @@ int Window::GetHeight() const
 GLFWwindow * Window::GetHandle() const
 {
 	return window;
+}
+
+void Window::SetWindowResizeCallback(void * context, WindowSizeFN callback)
+{
+	sizeCallbackContext = context;
+	sizeCallback = callback;
+	glfwSetWindowSizeCallback(window, WindowSizeCallback);
 }
 
 void Window::SetTitle(std::string title)

@@ -8,17 +8,17 @@ using std::endl;
 using std::string;
 
 
-Renderer::Renderer(const Window & window) : window(window)
+Renderer::Renderer(Window & window) : window(window)
 {
 	glewInit();
 
 	// TODO: Set up window resize callback
+	window.SetWindowResizeCallback(this, OnSizeCallback);
 
 #if DEBUG || _DEBUG
 	glDebugMessageCallback(OpenGLErrorCallback, nullptr);
 #endif
 }
-
 
 Renderer::~Renderer()
 {
@@ -121,3 +121,13 @@ void Renderer::OpenGLErrorCallback(GLenum source, GLenum type, GLuint id, GLenum
 	cout << message << endl;
 }
 #endif
+
+void Renderer::OnSizeCallback(void * context, int width, int height)
+{
+	reinterpret_cast<Renderer *>(context)->OnSize(width, height);
+}
+
+void Renderer::OnSize(int width, int height)
+{
+	cout << "Resize" << endl;
+}

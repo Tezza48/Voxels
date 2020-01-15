@@ -10,7 +10,7 @@ private:
 	Window window;
 
 public:
-	Renderer(const Window & window);
+	Renderer(Window & window);
 	~Renderer();
 
 	void Clear();
@@ -23,5 +23,9 @@ private:
 #if DEBUG || _DEBUG
 	static void OpenGLErrorCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar * message, const void * userParam);
 #endif
+
+	static void OnSizeCallback(void * context, int width, int height);
+
+	void OnSize(int width, int height);
 };
 

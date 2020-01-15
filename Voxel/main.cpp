@@ -72,10 +72,6 @@ int main(int argc, char ** argv)
 		ReadFile("./assets/shaders/marchedNoise_vert.glsl"),
 		ReadFile("./assets/shaders/marchedNoise_frag.glsl"));
 
-	prog.Bind();
-	glUniform2f(0, window.GetWidth(), window.GetHeight());
-	prog.Unbind();
-
 	auto startTime = high_resolution_clock::now();
 
 	renderer.SetClearColor({ 1.0f, 1.0f, 1.0f, 1.0f });
@@ -89,6 +85,7 @@ int main(int argc, char ** argv)
 		auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(high_resolution_clock::now() - startTime);
 		auto milliseconds = static_cast<float>(duration.count()) / 1000.0f;
 
+		glUniform2f(0, static_cast<float>(window.GetWidth()), static_cast<float>(window.GetHeight()));
 		glUniform1f(1, milliseconds);
 
 		renderer.DrawMesh(quadMesh);
