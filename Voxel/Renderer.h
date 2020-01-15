@@ -2,6 +2,7 @@
 #include <GL/glew.h>
 #include "Window.h"
 #include <glm/vec4.hpp>
+#include <glm/mat4x4.hpp>
 #include "Mesh.h"
 
 class Renderer
@@ -17,7 +18,7 @@ public:
 	void SetClearColor(glm::vec4 color);
 	void SwapBuffers();
 
-	void DrawMesh(const Mesh & mesh);
+	void DrawMesh(const Mesh & mesh, glm::mat4 view, glm::mat4 projection);
 
 private:
 #if DEBUG || _DEBUG

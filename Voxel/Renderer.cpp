@@ -2,11 +2,13 @@
 #include "common.h"
 #include <string>
 #include <iostream>
+#include <glm/ext.hpp>
+
+using namespace glm;
 
 using std::cout;
 using std::endl;
 using std::string;
-
 
 Renderer::Renderer(Window & window) : window(window)
 {
@@ -39,9 +41,12 @@ void Renderer::SwapBuffers()
 	window.SwapBuffers();
 }
 
-void Renderer::DrawMesh(const Mesh & mesh)
+void Renderer::DrawMesh(const Mesh & mesh, mat4 view, mat4 projection)
 {
 	mesh.Bind();
+
+	glUniformMatrix4fv(0, 1, GL_FALSE, glm::value_ptr(view));
+	glUniformMatrix4fv(1, 1, GL_FALSE, glm::value_ptr(projection));
 
 	const int numBuffers = mesh.GetNumIndexBuffers();
 

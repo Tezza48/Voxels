@@ -226,9 +226,12 @@ void main() {
 
 	if (t > MAX_DIST)
 	{
-		color = vec4(0, 0, 0, 1);
+		color = vec4(0, 0.0, 0.3, 1);
 		return;
 	}
+
+	color = vec4(0.7, 0.2, 0.2, 1);
+	return;
 
 	vec3 norm = calcNormal(ro + rd * t);
 

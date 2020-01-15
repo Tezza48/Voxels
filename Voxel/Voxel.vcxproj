@@ -27,6 +27,8 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="assets\shaders\color_frag.glsl" />
+    <None Include="assets\shaders\color_vert.glsl" />
     <None Include="assets\shaders\hash.glsl" />
     <None Include="assets\shaders\marchedNoisev2_frag.glsl" />
     <None Include="assets\shaders\marchedNoisev2_vert.glsl" />
