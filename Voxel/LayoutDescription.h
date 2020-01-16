@@ -1,6 +1,7 @@
 #pragma once
 #include <GL/glew.h>
 
+// Encapsulates the data needed for OpenGL Vertex Attributes.
 struct LayoutDescription
 {
 	GLuint index;

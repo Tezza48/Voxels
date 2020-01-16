@@ -55,7 +55,7 @@ void Mesh::Unbind() const
 	glBindVertexArray(0);
 }
 
-void Mesh::SetVertices(float * vertexData, int vertexSize, int numVertices)
+void Mesh::SetVertices(void * vertexData, int vertexSize, int numVertices)
 {
 	this->numVertices = numVertices;
 

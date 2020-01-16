@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ComputeShader.cpp" />
     <ClCompile Include="GraphicsShader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -29,16 +30,20 @@
   <ItemGroup>
     <None Include="assets\shaders\color_frag.glsl" />
     <None Include="assets\shaders\color_vert.glsl" />
+    <None Include="assets\shaders\compute.comp" />
     <None Include="assets\shaders\hash.glsl" />
     <None Include="assets\shaders\marchedNoisev2_frag.glsl" />
     <None Include="assets\shaders\marchedNoisev2_vert.glsl" />
     <None Include="assets\shaders\marchedNoise_frag.glsl" />
     <None Include="assets\shaders\marchedNoise_vert.glsl" />
+    <None Include="assets\shaders\tex.frag" />
+    <None Include="assets\shaders\tex.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />
+    <ClInclude Include="ComputeShader.h" />
     <ClInclude Include="GraphicsShader.h" />
-    <ClInclude Include="IBindableResource.h" />
+    <ClInclude Include="BindableResource.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="resource.h" />

@@ -37,6 +37,9 @@
     <ClCompile Include="Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ComputeShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\marchedNoise_frag.glsl">
@@ -58,6 +61,15 @@
       <Filter>Source Files\shaderAssets</Filter>
     </None>
     <None Include="assets\shaders\color_frag.glsl">
+      <Filter>Source Files\shaderAssets</Filter>
+    </None>
+    <None Include="assets\shaders\compute.comp">
+      <Filter>Source Files\shaderAssets</Filter>
+    </None>
+    <None Include="assets\shaders\tex.frag">
+      <Filter>Source Files\shaderAssets</Filter>
+    </None>
+    <None Include="assets\shaders\tex.vert">
       <Filter>Source Files\shaderAssets</Filter>
     </None>
   </ItemGroup>
@@ -86,7 +98,10 @@
     <ClInclude Include="LayoutDescription.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IBindableResource.h">
+    <ClInclude Include="ComputeShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BindableResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

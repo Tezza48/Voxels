@@ -71,38 +71,39 @@ int main(int argc, char ** argv)
 	//quadMesh.SetIndices(0, indices, sizeof(indices));
 	//quadMesh.Unbind();
 
-	struct VertexPos2DColor
+	struct VertexPos2DColorTex
 	{
 		vec2 pos;
 		vec4 color;
+		vec2 texcoord;
 	};
 
-	std::array<LayoutDescription, 2> layout2DColor;
-	layout2DColor[0] = { 0, 2, GL_FLOAT, GL_FALSE, sizeof(VertexPos2DColor), (void*)offsetof(VertexPos2DColor, pos) };
-	layout2DColor[1] = { 1, 4, GL_FLOAT, GL_FALSE, sizeof(VertexPos2DColor), (void*)offsetof(VertexPos2DColor, color) };
+	std::array<LayoutDescription, 3> layout2DColorTex;
+	layout2DColorTex[0] = { 0, 2, GL_FLOAT, GL_FALSE, sizeof(VertexPos2DColorTex), (void*)offsetof(VertexPos2DColorTex, pos) };
+	layout2DColorTex[1] = { 1, 4, GL_FLOAT, GL_FALSE, sizeof(VertexPos2DColorTex), (void*)offsetof(VertexPos2DColorTex, color) };
+	layout2DColorTex[2] = { 2, 2, GL_FLOAT, GL_FALSE, sizeof(VertexPos2DColorTex), (void*)offsetof(VertexPos2DColorTex, texcoord) };
 
-	Mesh spriteMesh(layout2DColor, 1);
+	Mesh spriteMesh(layout2DColorTex, 1);
 
-	VertexPos2DColor vertices[6] = {
-		{ vec2(-0.5, -0.5), vec4(1, 0, 0, 1) },
-		{ vec2(-0.5, 0.5), vec4(0, 1, 0, 1) },
-		{ vec2(0.5, -0.5), vec4(0, 0, 1, 1) },
-		{ vec2(0.5, 0.5), vec4(1, 1, 1, 1) },
-	};
+	std::array<VertexPos2DColorTex, 4> vertices;
+	vertices[0] = { vec2(-0.5, -0.5), vec4(1, 0, 0, 1), vec2(0, 0) };
+	vertices[1] = { vec2(-0.5, 0.5),  vec4(0, 1, 0, 1), vec2(0, 1) };
+	vertices[2] = { vec2(0.5, -0.5),  vec4(0, 0, 1, 1), vec2(1, 0) };
+	vertices[3] = { vec2(0.5, 0.5),   vec4(1, 1, 1, 1), vec2(1, 1) };
 
 	unsigned int indices[6] = {
 		0, 1, 2, 1, 2, 3
 	};
 
 	spriteMesh.Bind();
-	spriteMesh.SetVertices(reinterpret_cast<float *>(vertices), sizeof(VertexPos2DColor), sizeof(vertices));
+	spriteMesh.SetVertices(vertices);
 	spriteMesh.SetIndices(0, indices, sizeof(indices));
 	spriteMesh.Unbind();
 
 	// Shader
 	const GraphicsShader shader(
-		ReadFile("./assets/shaders/color_vert.glsl"),
-		ReadFile("./assets/shaders/color_frag.glsl"));
+		ReadFile("./assets/shaders/tex.vert"),
+		ReadFile("./assets/shaders/tex.frag"));
 
 	auto startTime = high_resolution_clock::now();
 
@@ -143,7 +144,7 @@ string ReadFile(const string path)
 
 	stringstream fileDataStream;
 
-	if (ifs.is_open()) 
+	if (ifs.is_open())
 	{
 		while (getline(ifs, line))
 		{
