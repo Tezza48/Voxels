@@ -17,6 +17,7 @@
 #include "Window.h"
 #include "Renderer.h"
 #include "Mesh.h"
+#include "ComputeShader.h"
 
 #define PI 3.1416f
 
@@ -40,36 +41,6 @@ int main(int argc, char ** argv)
 	}
 
 	Renderer renderer(window);
-
-	//struct VertexPos2DTex
-	//{
-	//	vec2 pos;
-	//	vec2 tex;
-	//};
-
-	//LayoutDescription layout2DGeom[2] = {
-	//	{ 0, 2, GL_FLOAT, GL_FALSE, sizeof(VertexPos2DTex), (void *)offsetof(VertexPos2DTex, pos) },
-	//	{ 1, 2, GL_FLOAT, GL_FALSE, sizeof(VertexPos2DTex), (void *)offsetof(VertexPos2DTex, tex) }
-	//};
-
-	//Mesh quadMesh(layout2DGeom, 2, 1);
-
-	//VertexPos2DTex vertices[6] = {
-	//	{ vec2(-1, -1), vec2(0, 0) },
-	//	{ vec2(-1, 1), vec2(0, 1) },
-	//	{ vec2(1, -1), vec2(1, 0) },
-	//	{ vec2(1, 1), vec2(1, 1) },
-	//};
-
-	//unsigned int indices[6] = {
-	//	0, 1, 2, 1, 2, 3
-	//};
-
-	//quadMesh.Bind();
-	//quadMesh.SetVertices(reinterpret_cast<float *>(vertices), sizeof(VertexPos2DTex), sizeof(vertices));
-	//quadMesh.SetIndices(0, indices, sizeof(indices));
-	//quadMesh.SetIndices(0, indices, sizeof(indices));
-	//quadMesh.Unbind();
 
 	struct VertexPos2DColorTex
 	{
@@ -97,8 +68,32 @@ int main(int argc, char ** argv)
 
 	spriteMesh.Bind();
 	spriteMesh.SetVertices(vertices);
-	spriteMesh.SetIndices(0, indices, sizeof(indices));
+	spriteMesh.SetIndices(0, indices, 6);
 	spriteMesh.Unbind();
+
+	GLuint noiseTexture = 0;
+	glCreateTextures(GL_TEXTURE_2D, 1, &noiseTexture);
+	glBindTexture(GL_TEXTURE_2D, noiseTexture);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	const int noiseMapWidth = 64;
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, noiseMapWidth, noiseMapWidth, 0, GL_RED, GL_FLOAT, nullptr);
+	
+	glBindImageTexture(0, noiseTexture, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_R8);
+
+	const ComputeShader noiseCompute(ReadFile("./assets/shaders/compute.comp"));
+	noiseCompute.Bind();
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, noiseTexture);
+
+	noiseCompute.SetUniform1i("writer", 0);
+	noiseCompute.Dispatch(noiseMapWidth / 16, noiseMapWidth / 16, 1);
+	noiseCompute.Unbind();
 
 	// Shader
 	const GraphicsShader shader(
@@ -107,7 +102,7 @@ int main(int argc, char ** argv)
 
 	auto startTime = high_resolution_clock::now();
 
-	renderer.SetClearColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+	renderer.SetClearColor({ 0.1f, 0.1f, 0.3f, 1.0f });
 
 	auto projMat = glm::perspectiveFov(PI / 2.0f, static_cast<float>(window.GetWidth()), static_cast<float>(window.GetHeight()), 0.01f, 100.0f);
 	auto viewMat = glm::lookAt(vec3(0, 0, 1), vec3(0), vec3(0, 1, 0));
@@ -118,8 +113,15 @@ int main(int argc, char ** argv)
 
 		shader.Bind();
 
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, noiseTexture);
+
+		shader.SetUniform1i("uNoiseTexture", 0);
+
 		auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(high_resolution_clock::now() - startTime);
 		auto milliseconds = static_cast<float>(duration.count()) / 1000.0f;
+
+		shader.SetUniform1f("uTime", milliseconds);
 
 		//glUniform2f(0, static_cast<float>(window.GetWidth()), static_cast<float>(window.GetHeight()));
 		//glUniform1f(1, milliseconds);

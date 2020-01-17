@@ -1,0 +1,72 @@
+#version 460
+
+writeonly uniform image2D writer;
+
+#define LOCAL_SIZE 32
+
+layout (local_size_x = LOCAL_SIZE, local_size_y = LOCAL_SIZE) in;
+
+#define PI 3.1416
+
+// Ease the components of a normalized genType using a cosine function.
+#define cosEase(a) (1.0 - cos(a * PI)) / 2
+
+float hash21(vec2 p)
+{
+	return fract(sin(dot(p, vec2(302.672, 8861.772))) * 6614.7712);
+}
+
+// Generate Value noise from a vec2.
+float valueNoise21(vec2 p)
+{
+	vec2 lerpFactor = fract(p - 0.5);
+
+	float c00, c10, c01, c11;
+
+	if (lerpFactor.x >= 0.5) // use this cellPos and one to the right
+	{
+		p.x -= 1.0;
+	}
+	if (lerpFactor.y >= 0.5)
+	{
+		p.y -= 1.0;
+	}
+
+	lerpFactor = (lerpFactor);
+
+	c00 = hash21(floor((p + vec2(0, 0))));
+	c10 = hash21(floor((p + vec2(1, 0))));
+
+	c01 = hash21(floor((p + vec2(0, 1))));
+	c11 = hash21(floor((p + vec2(1, 1))));
+	
+	float bottom = mix(c00, c10, lerpFactor.x);
+	float top = mix(c01, c11, lerpFactor.x);
+
+	return mix(bottom, top, lerpFactor.y);
+}
+
+// Generate fractal value noise from a vec2.
+float fractalValueNoise21(vec2 p)
+{
+	float value = 0;
+	float amp = 0.5;
+
+	for (int i = 0, l = 3; i < l; i++)
+	{
+		value += valueNoise21(p) * amp;
+		amp *= 0.5;
+		p *= 2;
+	}
+
+	return value;
+}
+
+void main()
+{
+	vec2 coordinates = gl_GlobalInvocationID.xy;
+	vec2 resolution = vec2(gl_NumWorkGroups.xy) * LOCAL_SIZE;
+
+	imageStore(writer, ivec2(coordinates), vec4(fractalValueNoise21(16 * coordinates / resolution), 0, 0, 0));
+	
+}
