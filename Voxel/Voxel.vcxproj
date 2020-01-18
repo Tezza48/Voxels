@@ -25,16 +25,20 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Noise2DComputeScene.cpp" />
+    <ClCompile Include="Noise3DComputeScene.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Texture2D.cpp" />
+    <ClCompile Include="Texture3D.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\color_frag.glsl" />
     <None Include="assets\shaders\color_vert.glsl" />
     <None Include="assets\shaders\computeNoise2D.comp" />
+    <None Include="assets\shaders\computeNoise3D.comp" />
     <None Include="assets\shaders\hash.glsl" />
     <None Include="assets\shaders\marchedNoisev2_frag.glsl" />
     <None Include="assets\shaders\marchedNoisev2_vert.glsl" />
@@ -42,6 +46,8 @@
     <None Include="assets\shaders\marchedNoise_vert.glsl" />
     <None Include="assets\shaders\tex.frag" />
     <None Include="assets\shaders\tex.vert" />
+    <None Include="assets\shaders\tex3DSample.frag" />
+    <None Include="assets\shaders\tex3DSample.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />
@@ -49,13 +55,16 @@
     <ClInclude Include="ContentHelper.h" />
     <ClInclude Include="GraphicsShader.h" />
     <ClInclude Include="Noise2DComputeScene.h" />
+    <ClInclude Include="Noise3DComputeScene.h" />
     <ClInclude Include="RendererResource.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="LayoutDescription.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Texture2D.h" />
+    <ClInclude Include="Texture3D.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -155,9 +164,10 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;glfw3dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy  /y /E "$(ProjectDir)assets" "$(OutDir)assets\"</Command>

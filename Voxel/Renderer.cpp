@@ -41,7 +41,7 @@ void Renderer::SwapBuffers()
 	window.SwapBuffers();
 }
 
-void Renderer::SetTextureSampler(int samplerSlot, Texture2D texture)
+void Renderer::SetTextureSampler(int samplerSlot, Texture * texture)
 {
 	GLenum slot = GL_TEXTURE0 + samplerSlot;
 
@@ -52,7 +52,7 @@ void Renderer::SetTextureSampler(int samplerSlot, Texture2D texture)
 	}
 
 	glActiveTexture(slot);
-	texture.Bind();
+	texture->Bind();
 }
 
 void Renderer::DrawMesh(const Mesh & mesh, mat4 view, mat4 projection)
@@ -110,6 +110,38 @@ void Renderer::OpenGLErrorCallback(GLenum source, GLenum type, GLuint id, GLenum
 		break;
 	}
 
+	string typeStr;
+	switch (type)
+	{
+	case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:
+		typeStr = "Depricated Behaviour";
+		break;
+	case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:
+		typeStr = "Undefined Behaviour";
+		break;
+	case GL_DEBUG_TYPE_PORTABILITY:
+		typeStr = "Portability";
+		break;
+	case GL_DEBUG_TYPE_PERFORMANCE:
+		typeStr = "Performance";
+		break;
+	case GL_DEBUG_TYPE_OTHER:
+		typeStr = "Other";
+		break;
+	case GL_DEBUG_TYPE_MARKER:
+		typeStr = "Marker";
+		break;
+	case GL_DEBUG_TYPE_PUSH_GROUP:
+		typeStr = "Push Group";
+		break;
+	case GL_DEBUG_TYPE_POP_GROUP:
+		typeStr = "Pop Group";
+		break;
+	default:
+		typeStr = "Unknown Type";
+		break;
+	}
+
 	string severityStr;
 	switch (severity)
 	{
@@ -128,16 +160,13 @@ void Renderer::OpenGLErrorCallback(GLenum source, GLenum type, GLuint id, GLenum
 		break;
 	}
 
-	if (severity != GL_DEBUG_SEVERITY_NOTIFICATION)
-	{
-		cout << "ERROR-";
-	}
+	cout << "ERROR-" << typeStr << ". ";
 
 	cout << severityStr << " : " << sourceStr;
 	
 	cout << " ID: 0x" << std::hex << id << " 0x" << type << std::dec << " ";
 
-	cout << message << endl;
+	cout << "Message(" << message << ")" << endl;
 }
 #endif
 

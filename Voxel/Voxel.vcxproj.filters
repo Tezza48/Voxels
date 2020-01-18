@@ -52,6 +52,15 @@
     <ClCompile Include="ContentHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Noise3DComputeScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture3D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\marchedNoise_frag.glsl">
@@ -82,6 +91,15 @@
       <Filter>Source Files\shaderAssets</Filter>
     </None>
     <None Include="assets\shaders\computeNoise2D.comp">
+      <Filter>Source Files\shaderAssets</Filter>
+    </None>
+    <None Include="assets\shaders\tex3DSample.frag">
+      <Filter>Source Files\shaderAssets</Filter>
+    </None>
+    <None Include="assets\shaders\tex3DSample.vert">
+      <Filter>Source Files\shaderAssets</Filter>
+    </None>
+    <None Include="assets\shaders\computeNoise3D.comp">
       <Filter>Source Files\shaderAssets</Filter>
     </None>
   </ItemGroup>
@@ -123,6 +141,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ContentHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Noise3DComputeScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -10,7 +10,7 @@
 #include "Mesh.h"
 #include "ComputeShader.h"
 #include "Texture2D.h"
-#include "Noise2DComputeScene.h"
+#include "Noise3DComputeScene.h"
 
 using namespace glm;
 
@@ -23,7 +23,7 @@ using std::chrono::high_resolution_clock;
 
 int main(int argc, char ** argv)
 {
-	Window window(1600, 900, "Voxels");
+	Window window(800, 600, "Voxels");
 
 	if (!window.IsInitialized()) {
 		return 0;
@@ -31,9 +31,7 @@ int main(int argc, char ** argv)
 
 	Renderer renderer(window);
 
-	Noise2DComputeScene scene;
-
-	auto startTime = high_resolution_clock::now();
+	Noise3DComputeScene scene;
 
 	renderer.SetClearColor({ 0.1f, 0.1f, 0.3f, 1.0f });
 

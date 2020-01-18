@@ -1,15 +1,16 @@
 #pragma once
 #include "Texture.h"
 
-class Texture2D :
+class Texture3D :
 	public Texture
 {
 private:
 	int width;
 	int height;
+	int depth;
 
 public:
-	Texture2D(int width, int height, PixelFormat format);
+	Texture3D(int width, int height, int depth, PixelFormat format);
 
 	void SetEmpty();
 };

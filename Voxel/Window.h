@@ -1,6 +1,6 @@
 #pragma once
 
-#define GLFW_DLL
+//#define GLFW_DLL
 
 #include <GLFW/glfw3.h>
 #include <string>

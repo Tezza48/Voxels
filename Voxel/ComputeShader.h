@@ -1,7 +1,7 @@
 #pragma once
 #include "Shader.h"
 #include <string>
-#include "Texture2D.h"
+#include "Texture.h"
 
 enum ImageAccess {
 	ReadOnly = GL_READ_ONLY,
@@ -21,7 +21,7 @@ public:
 
 	void Dispatch(int x, int y, int z) const;
 
-	void BindImageTexture(Texture2D texture, ImageAccess access);
+	void BindImageTexture(Texture * texture, ImageAccess access);
 
 	const GLuint GetProgram() const;
 };

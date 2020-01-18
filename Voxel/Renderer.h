@@ -4,7 +4,7 @@
 #include <glm/vec4.hpp>
 #include <glm/mat4x4.hpp>
 #include "Mesh.h"
-#include "Texture2D.h"
+#include "Texture.h"
 
 // Class for abstracting OpenGL Rendering calls.
 class Renderer
@@ -29,7 +29,7 @@ public:
 
 	// TODO: Make Generic Texture class to simplify this when using 1D 2D and 3D textures.
 	// Bind a Texture to a texture slot.
-	void SetTextureSampler(int samplerSlot, Texture2D texture);
+	void SetTextureSampler(int samplerSlot, Texture * texture);
 
 	// Draw a mesh.
 	void DrawMesh(const Mesh & mesh, glm::mat4 view, glm::mat4 projection);
