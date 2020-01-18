@@ -9,8 +9,6 @@
 #include <iostream>
 #include <sstream>
 #include <chrono>
-#include <regex>
-
 #include "common.h"
 #include "GraphicsShader.h"
 #include "LayoutDescription.h"
@@ -18,8 +16,7 @@
 #include "Renderer.h"
 #include "Mesh.h"
 #include "ComputeShader.h"
-
-#define PI 3.1416f
+#include "Texture2D.h"
 
 using namespace glm;
 
@@ -31,6 +28,8 @@ using std::getline;
 using std::chrono::high_resolution_clock;
 
 string ReadFile(const string path);
+
+constexpr auto PI = 3.1416f;
 
 int main(int argc, char ** argv)
 {
@@ -71,29 +70,26 @@ int main(int argc, char ** argv)
 	spriteMesh.SetIndices(0, indices, 6);
 	spriteMesh.Unbind();
 
-	GLuint noiseTexture = 0;
-	glCreateTextures(GL_TEXTURE_2D, 1, &noiseTexture);
-	glBindTexture(GL_TEXTURE_2D, noiseTexture);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
 	const int noiseMapWidth = 64;
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, noiseMapWidth, noiseMapWidth, 0, GL_RED, GL_FLOAT, nullptr);
-	
-	glBindImageTexture(0, noiseTexture, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_R8);
+
+	Texture2D noiseTexture(noiseMapWidth, noiseMapWidth, PixelFormat::R);
+	noiseTexture.Bind();
+	noiseTexture.SetEmpty();
+	noiseTexture.Unbind();
+
+	glBindImageTexture(0, noiseTexture.GetInternalTexture(), 0, GL_FALSE,
+		0, GL_WRITE_ONLY, Texture2D::PixelFormatToGLInternalFormat(noiseTexture.GetPixelFormat()));
 
 	const ComputeShader noiseCompute(ReadFile("./assets/shaders/compute.comp"));
 	noiseCompute.Bind();
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, noiseTexture);
-
+	noiseTexture.Bind();
 	noiseCompute.SetUniform1i("writer", 0);
+
 	noiseCompute.Dispatch(noiseMapWidth / 16, noiseMapWidth / 16, 1);
 	noiseCompute.Unbind();
+	noiseTexture.Unbind();
 
 	// Shader
 	const GraphicsShader shader(
@@ -114,7 +110,7 @@ int main(int argc, char ** argv)
 		shader.Bind();
 
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, noiseTexture);
+		noiseTexture.Bind();
 
 		shader.SetUniform1i("uNoiseTexture", 0);
 
@@ -123,11 +119,7 @@ int main(int argc, char ** argv)
 
 		shader.SetUniform1f("uTime", milliseconds);
 
-		//glUniform2f(0, static_cast<float>(window.GetWidth()), static_cast<float>(window.GetHeight()));
-		//glUniform1f(1, milliseconds);
-
 		renderer.DrawMesh(spriteMesh, viewMat, projMat);
-		//renderer.DrawMesh(quadMesh, glm::mat4(0), glm::mat4(0));
 
 		shader.Unbind();
 
