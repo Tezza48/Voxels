@@ -8,3 +8,7 @@
 		__debugbreak();\
 	}\
 }
+
+#define PI 3.1416f
+
+#define SAFE_DELETE(x) if (x) { delete x; x = nullptr; }
