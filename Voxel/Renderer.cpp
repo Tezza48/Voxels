@@ -41,6 +41,20 @@ void Renderer::SwapBuffers()
 	window.SwapBuffers();
 }
 
+void Renderer::SetTextureSampler(int samplerSlot, Texture2D texture)
+{
+	GLenum slot = GL_TEXTURE0 + samplerSlot;
+
+	if (slot < GL_TEXTURE0 || slot > GL_TEXTURE31)
+	{
+		cout << "Sampler Slot \"" << samplerSlot << "\" is out of range 0 to 31. No sampler was bound" << endl;
+		return;
+	}
+
+	glActiveTexture(slot);
+	texture.Bind();
+}
+
 void Renderer::DrawMesh(const Mesh & mesh, mat4 view, mat4 projection)
 {
 	mesh.Bind();

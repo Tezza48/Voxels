@@ -31,6 +31,12 @@ void ComputeShader::Dispatch(int x, int y, int z) const
 	glDispatchCompute(x, y, z);
 }
 
+void ComputeShader::BindImageTexture(Texture2D texture, ImageAccess access)
+{
+	glBindImageTexture(0, texture.GetInternalTexture(), 0, GL_FALSE,
+		0, access, Texture2D::PixelFormatToGLInternalFormat(texture.GetPixelFormat()));
+}
+
 const GLuint ComputeShader::GetProgram() const
 {
 	return program;

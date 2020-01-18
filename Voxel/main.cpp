@@ -1,13 +1,6 @@
-//#define GLEW_STATIC
-
-#include <GL/glew.h>
 #include <string>
-#include <cstring>
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
-#include <fstream>
-#include <iostream>
-#include <sstream>
 #include <chrono>
 #include "common.h"
 #include "GraphicsShader.h"
@@ -17,6 +10,10 @@
 #include "Mesh.h"
 #include "ComputeShader.h"
 #include "Texture2D.h"
+// * Only used by ReadFile i think
+#include <fstream>
+#include <iostream>
+#include <sstream>
 
 using namespace glm;
 
@@ -49,9 +46,9 @@ int main(int argc, char ** argv)
 	};
 
 	std::array<LayoutDescription, 3> layout2DColorTex;
-	layout2DColorTex[0] = { 0, 2, GL_FLOAT, GL_FALSE, sizeof(VertexPos2DColorTex), (void*)offsetof(VertexPos2DColorTex, pos) };
-	layout2DColorTex[1] = { 1, 4, GL_FLOAT, GL_FALSE, sizeof(VertexPos2DColorTex), (void*)offsetof(VertexPos2DColorTex, color) };
-	layout2DColorTex[2] = { 2, 2, GL_FLOAT, GL_FALSE, sizeof(VertexPos2DColorTex), (void*)offsetof(VertexPos2DColorTex, texcoord) };
+	layout2DColorTex[0] = { 0, 2, LayoutDescription::Float, false, sizeof(VertexPos2DColorTex), (void*)offsetof(VertexPos2DColorTex, pos) };
+	layout2DColorTex[1] = { 1, 4, LayoutDescription::Float, false, sizeof(VertexPos2DColorTex), (void*)offsetof(VertexPos2DColorTex, color) };
+	layout2DColorTex[2] = { 2, 2, LayoutDescription::Float, false, sizeof(VertexPos2DColorTex), (void*)offsetof(VertexPos2DColorTex, texcoord) };
 
 	Mesh spriteMesh(layout2DColorTex, 1);
 
@@ -77,19 +74,14 @@ int main(int argc, char ** argv)
 	noiseTexture.SetEmpty();
 	noiseTexture.Unbind();
 
-	glBindImageTexture(0, noiseTexture.GetInternalTexture(), 0, GL_FALSE,
-		0, GL_WRITE_ONLY, Texture2D::PixelFormatToGLInternalFormat(noiseTexture.GetPixelFormat()));
-
-	const ComputeShader noiseCompute(ReadFile("./assets/shaders/compute.comp"));
+	ComputeShader noiseCompute(ReadFile("./assets/shaders/compute.comp"));
 	noiseCompute.Bind();
 
-	glActiveTexture(GL_TEXTURE0);
-	noiseTexture.Bind();
+	noiseCompute.BindImageTexture(noiseTexture, WriteOnly);
 	noiseCompute.SetUniform1i("writer", 0);
-
 	noiseCompute.Dispatch(noiseMapWidth / 16, noiseMapWidth / 16, 1);
 	noiseCompute.Unbind();
-	noiseTexture.Unbind();
+
 
 	// Shader
 	const GraphicsShader shader(
@@ -109,9 +101,7 @@ int main(int argc, char ** argv)
 
 		shader.Bind();
 
-		glActiveTexture(GL_TEXTURE0);
-		noiseTexture.Bind();
-
+		renderer.SetTextureSampler(0, noiseTexture);
 		shader.SetUniform1i("uNoiseTexture", 0);
 
 		auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(high_resolution_clock::now() - startTime);
@@ -154,20 +144,3 @@ string ReadFile(const string path)
 
 	return fileDataStream.str();
 }
-
-//string PreprocessGLSL(const string source)
-//{
-//	// Check for imports
-//	std::smatch matches;
-//	std::regex reg("(?:#pragma include<\")(. + )\">");
-//
-//	while (std::regex_search(source, matches, reg))
-//	{
-//		if (matches.ready())
-//		{
-//			std::cout << matches.str() << std::endl;
-//		}
-//	}
-//
-//	return source;
-//}
