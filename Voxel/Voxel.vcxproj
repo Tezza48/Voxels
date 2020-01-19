@@ -39,11 +39,13 @@
     <None Include="assets\shaders\color_vert.glsl" />
     <None Include="assets\shaders\computeNoise2D.comp" />
     <None Include="assets\shaders\computeNoise3D.comp" />
+    <None Include="assets\shaders\ease.glsl" />
     <None Include="assets\shaders\hash.glsl" />
     <None Include="assets\shaders\marchedNoisev2_frag.glsl" />
     <None Include="assets\shaders\marchedNoisev2_vert.glsl" />
     <None Include="assets\shaders\marchedNoise_frag.glsl" />
     <None Include="assets\shaders\marchedNoise_vert.glsl" />
+    <None Include="assets\shaders\noise.glsl" />
     <None Include="assets\shaders\tex.frag" />
     <None Include="assets\shaders\tex.vert" />
     <None Include="assets\shaders\tex3DSample.frag" />
@@ -155,8 +157,12 @@
       <AdditionalDependencies>opengl32.lib;glew32.lib;glfw3dll.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy  /y /E "$(ProjectDir)assets" "$(OutDir)assets\"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>xcopy  /y /E "$(ProjectDir)assets" "$(OutDir)assets\"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -165,13 +171,18 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy  /y /E "$(ProjectDir)assets" "$(OutDir)assets\"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>xcopy  /y /E "$(ProjectDir)assets" "$(OutDir)assets\"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -188,8 +199,12 @@
       <AdditionalDependencies>opengl32.lib;glew32.lib;glfw3dll.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy  /y /E "$(ProjectDir)assets" "$(OutDir)assets\"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>xcopy  /y /E "$(ProjectDir)assets" "$(OutDir)assets\"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -206,8 +221,12 @@
       <AdditionalDependencies>opengl32.lib;glew32.lib;glfw3dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy  /y /E "$(ProjectDir)assets" "$(OutDir)assets\"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>xcopy  /y /E "$(ProjectDir)assets" "$(OutDir)assets\"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

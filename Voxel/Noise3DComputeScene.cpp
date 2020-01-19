@@ -62,7 +62,7 @@ void Noise3DComputeScene::Start(Window & window, Renderer & renderer)
 	noiseTexture->Bind();
 	noiseTexture->SetEmpty();
 
-	noiseCompute = new ComputeShader(ContentHelper::ReadFile("./assets/shaders/computeNoise3D.comp"));
+	noiseCompute = new ComputeShader(ContentHelper::LoadShaderSource("./assets/shaders/compute/computeNoise3D.comp"));
 	noiseCompute->Bind();
 
 	noiseCompute->BindImageTexture(noiseTexture, WriteOnly);
@@ -72,8 +72,8 @@ void Noise3DComputeScene::Start(Window & window, Renderer & renderer)
 
 	// Shader
 	texColorShader = new GraphicsShader(
-		ContentHelper::ReadFile("./assets/shaders/tex3DSample.vert"),
-		ContentHelper::ReadFile("./assets/shaders/tex3DSample.frag"));
+		ContentHelper::ReadFile("./assets/shaders/graphics/tex3DSample.vert"),
+		ContentHelper::ReadFile("./assets/shaders/graphics/tex3DSample.frag"));
 
 	startTime = high_resolution_clock::now();
 }

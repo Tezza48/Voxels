@@ -1,0 +1,19 @@
+#version 460
+
+float fractalValueNoise31(vec3 p);
+
+#pragma include<"../common/noise.glsl">
+
+writeonly uniform image3D writer;
+
+#define LOCAL_SIZE 16
+
+layout (local_size_x = LOCAL_SIZE, local_size_y = LOCAL_SIZE, local_size_z = 1) in;
+
+void main()
+{
+	vec3 coordinates = gl_GlobalInvocationID.xyz;
+	vec3 resolution = vec3(gl_NumWorkGroups.xyz) * vec3(LOCAL_SIZE, LOCAL_SIZE, 1);
+
+	imageStore(writer, ivec3(coordinates), vec4(fractalValueNoise31(4 * coordinates / resolution), 0, 0, 0));
+}

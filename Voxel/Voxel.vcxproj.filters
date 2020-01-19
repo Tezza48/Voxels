@@ -69,9 +69,6 @@
     <None Include="assets\shaders\marchedNoise_vert.glsl">
       <Filter>Source Files\shaderAssets</Filter>
     </None>
-    <None Include="assets\shaders\hash.glsl">
-      <Filter>Source Files\shaderAssets</Filter>
-    </None>
     <None Include="assets\shaders\marchedNoisev2_frag.glsl">
       <Filter>Source Files\shaderAssets</Filter>
     </None>
@@ -100,6 +97,15 @@
       <Filter>Source Files\shaderAssets</Filter>
     </None>
     <None Include="assets\shaders\computeNoise3D.comp">
+      <Filter>Source Files\shaderAssets</Filter>
+    </None>
+    <None Include="assets\shaders\hash.glsl">
+      <Filter>Source Files\shaderAssets</Filter>
+    </None>
+    <None Include="assets\shaders\noise.glsl">
+      <Filter>Source Files\shaderAssets</Filter>
+    </None>
+    <None Include="assets\shaders\ease.glsl">
       <Filter>Source Files\shaderAssets</Filter>
     </None>
   </ItemGroup>

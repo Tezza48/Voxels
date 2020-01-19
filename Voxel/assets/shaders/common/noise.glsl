@@ -1,21 +1,11 @@
-#version 460
+#ifndef NOISE
+#define NOISE
 
-writeonly uniform image3D writer;
+vec3 cosEase(vec3);
+float hash31(vec3);
 
-#define LOCAL_SIZE 16
-
-layout (local_size_x = LOCAL_SIZE, local_size_y = LOCAL_SIZE, local_size_z = 1) in;
-
-#define PI 3.1416
-
-// Ease the components of a normalized genType using a cosine function.
-#define cosEase(a) (1.0 - cos(a * PI)) / 2
-
-// Generate a random value from a vec3.
-float hash31(vec3 p)
-{
-	return fract(sin(dot(p, vec3(302.672, 8861.772, 78123.71))) * 6614.7712);
-}
+#pragma include<"hash.glsl">
+#pragma include<"ease.glsl">
 
 // Generate value noise from a vec3.
 float valueNoise31(vec3 p)
@@ -91,11 +81,4 @@ float fractalValueNoise31(vec3 p)
 
 	return value;
 }
-
-void main()
-{
-	vec3 coordinates = gl_GlobalInvocationID.xyz;
-	vec3 resolution = vec3(gl_NumWorkGroups.xyz) * vec3(LOCAL_SIZE, LOCAL_SIZE, 1);
-
-	imageStore(writer, ivec3(coordinates), vec4(fractalValueNoise31(4 * coordinates / resolution), 0, 0, 0));
-}
+#endif
