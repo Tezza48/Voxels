@@ -1,3 +1,13 @@
+#define STB_IMAGE_IMPLEMENTATION
+
+#if DEBUG || _DEBUG
+#define STBI_FAILURE_USERMSG
+#else
+#define STBI_NO_FAILURE_STRINGS
+#endif
+
+#include "vendor/stb_image.h"
+
 #include "ContentHelper.h"
 #include <fstream>
 #include <iostream>
@@ -6,6 +16,7 @@
 #include <utility>
 #include <regex>
 #include <filesystem>
+
 
 using std::string;
 using std::ifstream;
@@ -61,4 +72,30 @@ string ContentHelper::ReadFile(const string & path)
 	ifs.close();
 
 	return fileDataStream.str();
+}
+
+unsigned char * ContentHelper::LoadTextureFile(const std::string & path, int * width, int * height, PixelFormat * bitsPerPixel)
+{
+	stbi_set_flip_vertically_on_load(true);
+	int bpp;
+
+	auto pathCstr = path.c_str();
+
+	auto data = stbi_load(pathCstr, width, height, &bpp, STBI_rgb_alpha);
+
+	auto failureReason = stbi_failure_reason();
+
+	if (failureReason)
+	{
+		cout << failureReason << endl;
+	}
+
+	*bitsPerPixel = static_cast<PixelFormat>(bpp - 1);
+
+	return data;
+}
+
+void ContentHelper::CleanupTextureFile(unsigned char * textureData)
+{
+	stbi_image_free(textureData);
 }

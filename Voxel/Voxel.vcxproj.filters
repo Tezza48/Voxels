@@ -13,10 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\shaderAssets">
-      <UniqueIdentifier>{2128fde4-e245-4e12-a545-607e8b936c3c}</UniqueIdentifier>
-      <Extensions>*.glsl</Extensions>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -61,53 +57,9 @@
     <ClCompile Include="Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="assets\shaders\marchedNoise_frag.glsl">
-      <Filter>Source Files\shaderAssets</Filter>
-    </None>
-    <None Include="assets\shaders\marchedNoise_vert.glsl">
-      <Filter>Source Files\shaderAssets</Filter>
-    </None>
-    <None Include="assets\shaders\marchedNoisev2_frag.glsl">
-      <Filter>Source Files\shaderAssets</Filter>
-    </None>
-    <None Include="assets\shaders\marchedNoisev2_vert.glsl">
-      <Filter>Source Files\shaderAssets</Filter>
-    </None>
-    <None Include="assets\shaders\color_vert.glsl">
-      <Filter>Source Files\shaderAssets</Filter>
-    </None>
-    <None Include="assets\shaders\color_frag.glsl">
-      <Filter>Source Files\shaderAssets</Filter>
-    </None>
-    <None Include="assets\shaders\tex.frag">
-      <Filter>Source Files\shaderAssets</Filter>
-    </None>
-    <None Include="assets\shaders\tex.vert">
-      <Filter>Source Files\shaderAssets</Filter>
-    </None>
-    <None Include="assets\shaders\computeNoise2D.comp">
-      <Filter>Source Files\shaderAssets</Filter>
-    </None>
-    <None Include="assets\shaders\tex3DSample.frag">
-      <Filter>Source Files\shaderAssets</Filter>
-    </None>
-    <None Include="assets\shaders\tex3DSample.vert">
-      <Filter>Source Files\shaderAssets</Filter>
-    </None>
-    <None Include="assets\shaders\computeNoise3D.comp">
-      <Filter>Source Files\shaderAssets</Filter>
-    </None>
-    <None Include="assets\shaders\hash.glsl">
-      <Filter>Source Files\shaderAssets</Filter>
-    </None>
-    <None Include="assets\shaders\noise.glsl">
-      <Filter>Source Files\shaderAssets</Filter>
-    </None>
-    <None Include="assets\shaders\ease.glsl">
-      <Filter>Source Files\shaderAssets</Filter>
-    </None>
+    <ClCompile Include="SpriteTestScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
@@ -156,6 +108,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\stb_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteTestScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -29,27 +29,11 @@
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="SpriteTestScene.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="Texture3D.cpp" />
     <ClCompile Include="Window.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="assets\shaders\color_frag.glsl" />
-    <None Include="assets\shaders\color_vert.glsl" />
-    <None Include="assets\shaders\computeNoise2D.comp" />
-    <None Include="assets\shaders\computeNoise3D.comp" />
-    <None Include="assets\shaders\ease.glsl" />
-    <None Include="assets\shaders\hash.glsl" />
-    <None Include="assets\shaders\marchedNoisev2_frag.glsl" />
-    <None Include="assets\shaders\marchedNoisev2_vert.glsl" />
-    <None Include="assets\shaders\marchedNoise_frag.glsl" />
-    <None Include="assets\shaders\marchedNoise_vert.glsl" />
-    <None Include="assets\shaders\noise.glsl" />
-    <None Include="assets\shaders\tex.frag" />
-    <None Include="assets\shaders\tex.vert" />
-    <None Include="assets\shaders\tex3DSample.frag" />
-    <None Include="assets\shaders\tex3DSample.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />
@@ -64,9 +48,11 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="LayoutDescription.h" />
+    <ClInclude Include="SpriteTestScene.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="Texture3D.h" />
+    <ClInclude Include="vendor\stb_image.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -125,6 +111,7 @@
     <IntDir>$(SolutionDir)build_int\$(Configuration)_$(Platform)\</IntDir>
     <LibraryPath>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget);$(LibraryPath)</LibraryPath>
     <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+    <PreBuildEventUseInBuild>false</PreBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)build\$(Configuration)_$(Platform)\</OutDir>
@@ -138,6 +125,7 @@
     <LibraryPath>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget);$(LibraryPath)</LibraryPath>
     <IncludePath>$(SolutionDir)include;$(IncludePath)</IncludePath>
     <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+    <PreBuildEventUseInBuild>false</PreBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)build\$(Configuration)_$(Platform)\</OutDir>
@@ -152,6 +140,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies>opengl32.lib;glew32.lib;glfw3dll.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -192,6 +181,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -214,6 +204,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

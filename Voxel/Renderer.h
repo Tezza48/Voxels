@@ -5,6 +5,7 @@
 #include <glm/mat4x4.hpp>
 #include "Mesh.h"
 #include "Texture.h"
+#include "GraphicsShader.h"
 
 // Class for abstracting OpenGL Rendering calls.
 class Renderer
@@ -12,6 +13,9 @@ class Renderer
 private: 
 	// Window object this renderer draws to.
 	Window window;
+
+	Mesh * spriteQuad;
+	GraphicsShader * spriteShader;
 
 public:
 	// Creates an instance of `Renderer` and sets the window.
@@ -29,10 +33,13 @@ public:
 
 	// TODO: Make Generic Texture class to simplify this when using 1D 2D and 3D textures.
 	// Bind a Texture to a texture slot.
-	void SetTextureSampler(int samplerSlot, Texture * texture);
+	void SetTextureSampler(int samplerSlot, const Texture * texture);
 
 	// Draw a mesh.
 	void DrawMesh(const Mesh & mesh, glm::mat4 view, glm::mat4 projection);
+
+	// Draw a texture to the screen.
+	void DrawTexture(const Texture * texture, glm::vec4 rect);
 
 private:
 #if DEBUG || _DEBUG

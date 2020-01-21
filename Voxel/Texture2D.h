@@ -10,6 +10,7 @@ private:
 
 public:
 	Texture2D(int width, int height, PixelFormat format);
+	Texture2D(int width, int height, PixelFormat format, unsigned char * data);
 
 	void SetEmpty();
 };

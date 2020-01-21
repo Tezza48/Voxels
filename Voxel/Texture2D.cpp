@@ -12,6 +12,19 @@ Texture2D::Texture2D(int width, int height, PixelFormat format): Texture(GL_TEXT
 	Unbind();
 }
 
+Texture2D::Texture2D(int width, int height, PixelFormat format, unsigned char * data) :
+	Texture2D(width, height, format)
+{
+	// TODO: Move param setters from other ctor into private method to avoid immediately rebinding after calling the other ctor.
+	Bind();
+
+	const auto formats = GetGLFormats();
+
+	glTexImage2D(bindTarget, 0, formats.first, width, height, 0, formats.second, GL_UNSIGNED_BYTE, data);
+
+	Unbind();
+}
+
 void Texture2D::SetEmpty()
 {
 	const auto formats = GetGLFormats();

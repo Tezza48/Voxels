@@ -3,12 +3,14 @@
 #include <string>
 #include <iostream>
 #include <glm/ext.hpp>
+#include "ContentHelper.h"
 
 using namespace glm;
 
 using std::cout;
 using std::endl;
 using std::string;
+using glm::vec2;
 
 Renderer::Renderer(Window & window) : window(window)
 {
@@ -16,6 +18,34 @@ Renderer::Renderer(Window & window) : window(window)
 
 	// TODO: Set up window resize callback
 	window.SetWindowResizeCallback(this, OnSizeCallback);
+
+	spriteShader = new GraphicsShader(
+		ContentHelper::LoadShaderSource("./assets/shaders/graphics/sprite.vert"),
+		ContentHelper::LoadShaderSource("./assets/shaders/graphics/sprite.frag"));
+
+	struct VertexColorTex
+	{
+		vec2 pos;
+		vec2 tex;
+	};
+
+	std::array<LayoutDescription, 2> spriteQuadLayout;
+	spriteQuadLayout[0] = { 0, 2, LayoutDescription::Float, false, sizeof(VertexColorTex), (void *)offsetof(VertexColorTex, pos) };
+	spriteQuadLayout[1] = { 1, 2, LayoutDescription::Float, false, sizeof(VertexColorTex), (void *)offsetof(VertexColorTex, tex) };
+
+	spriteQuad = new Mesh(spriteQuadLayout);
+
+	std::array<VertexColorTex, 6> vertices;
+	vertices[0] = { vec2(0,  0), vec2(0, 1) };
+	vertices[1] = { vec2(1,	 0), vec2(1, 1) };
+	vertices[2] = { vec2(1, -1), vec2(1, 0) };
+	vertices[3] = vertices[0];
+	vertices[4] = vertices[2];
+	vertices[5] = { vec2(0, -1), vec2(0, 0) };
+
+	spriteQuad->Bind();
+	spriteQuad->SetVertices(vertices);
+	spriteQuad->Unbind();
 
 #if DEBUG || _DEBUG
 	glDebugMessageCallback(OpenGLErrorCallback, nullptr);
@@ -41,7 +71,7 @@ void Renderer::SwapBuffers()
 	window.SwapBuffers();
 }
 
-void Renderer::SetTextureSampler(int samplerSlot, Texture * texture)
+void Renderer::SetTextureSampler(int samplerSlot, const Texture * texture)
 {
 	GLenum slot = GL_TEXTURE0 + samplerSlot;
 
@@ -82,6 +112,25 @@ void Renderer::DrawMesh(const Mesh & mesh, mat4 view, mat4 projection)
 	}
 
 	mesh.Unbind();
+}
+
+void Renderer::DrawTexture(const Texture * texture, glm::vec4 rect)
+{
+	spriteShader->Bind();
+
+	SetTextureSampler(0, texture);
+	spriteShader->SetUniform1i("uSpriteTexture", 0);
+	spriteShader->SetUniform2i("uResolution", ivec2(window.GetWidth(), window.GetHeight()));
+
+	spriteShader->SetUniform4f("uRect", rect);
+
+	spriteQuad->Bind();
+	glDrawArrays(GL_TRIANGLES, 0, spriteQuad->GetNumVertices());
+	spriteQuad->Unbind();
+
+	texture->Unbind();
+
+	spriteShader->Unbind();
 }
 
 #if DEBUG || _DEBUG
