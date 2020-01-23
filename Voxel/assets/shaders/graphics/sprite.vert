@@ -10,7 +10,7 @@ out vec2 fragTexcoord;
 
 void main()
 {
-	vec2 pos = (vertPosition / uResolution);
+	vec2 pos = (vertPosition * 2) / uResolution;
 
 	pos *= uRect.zw;
 	pos += uRect.xy;

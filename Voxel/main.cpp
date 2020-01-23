@@ -11,7 +11,7 @@
 #include "Mesh.h"
 #include "ComputeShader.h"
 #include "Texture2D.h"
-#include "SpriteTestScene.h"
+#include "Sandbox.h"
 #include <iostream>
 
 using namespace glm;
@@ -50,7 +50,7 @@ int main(int argc, char** argv)
 
 	Renderer renderer(window);
 
-	SpriteTestScene scene;
+	Sandbox scene;
 
 	renderer.SetClearColor({ 0.1f, 0.1f, 0.3f, 1.0f });
 

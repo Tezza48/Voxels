@@ -56,6 +56,15 @@ void Shader::Link()
 	glValidateProgram(program);
 }
 
+void Shader::SetName(std::string name)
+{
+	auto programName = "Program(" + name + ")";
+
+	Bind();
+	glObjectLabel(GL_PROGRAM, program, programName.length(), programName.c_str());
+	Unbind();
+}
+
 Shader::~Shader()
 {
 	glDeleteProgram(program);

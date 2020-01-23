@@ -31,7 +31,6 @@ public:
 	// Swap the Window's render targets.
 	void SwapBuffers();
 
-	// TODO: Make Generic Texture class to simplify this when using 1D 2D and 3D textures.
 	// Bind a Texture to a texture slot.
 	void SetTextureSampler(int samplerSlot, const Texture * texture);
 

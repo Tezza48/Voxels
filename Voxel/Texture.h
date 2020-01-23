@@ -19,7 +19,7 @@ public:
 	Texture(GLenum bindTarget, PixelFormat format);
 	Texture(const Texture &) = delete;
 	virtual ~Texture();
-
+	
 	// Inherited via RendererResource
 	virtual void Bind() const override;
 	virtual void Unbind() const override;
@@ -28,5 +28,11 @@ public:
 
 	GLuint GetInternalTexture() const;
 	PixelFormat GetPixelFormat() const;
+
+	// Inherited via RendererResource
+	virtual void SetName(std::string name) override;
+
+protected:
+	virtual void SetupParamaters() = 0;
 };
 

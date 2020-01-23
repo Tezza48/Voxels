@@ -27,6 +27,7 @@
     <ClCompile Include="Noise2DComputeScene.cpp" />
     <ClCompile Include="Noise3DComputeScene.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Sandbox.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SpriteTestScene.cpp" />
@@ -45,6 +46,7 @@
     <ClInclude Include="RendererResource.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Sandbox.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="LayoutDescription.h" />

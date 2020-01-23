@@ -64,7 +64,7 @@ void Noise2DComputeScene::Start(Window & window, Renderer & renderer)
 	noiseCompute = new ComputeShader(ContentHelper::ReadFile("./assets/shaders/computeNoise2D.comp"));
 	noiseCompute->Bind();
 
-	noiseCompute->BindImageTexture(noiseTexture, WriteOnly);
+	noiseCompute->BindImageTexture(noiseTexture, WriteOnly, 0);
 	noiseCompute->SetUniform1i("writer", 0);
 	noiseCompute->Dispatch(noiseMapWidth / 16, noiseMapWidth / 16, 1);
 	noiseCompute->Unbind();

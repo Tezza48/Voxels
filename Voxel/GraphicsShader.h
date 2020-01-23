@@ -15,5 +15,7 @@ public:
 	// Create shader from the given sourcecode.
 	GraphicsShader(std::string vsSource, std::string fsSource);
 	virtual ~GraphicsShader();
+
+	virtual void SetName(std::string name) override;
 };
 

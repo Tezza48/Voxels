@@ -8,5 +8,9 @@ out vec4 fragColor;
 
 void main()
 {
-	fragColor = texture(uSpriteTexture, fragTexcoord);
+	vec4 col = texture(uSpriteTexture, fragTexcoord);
+
+	if (col.a < 0.01) discard;
+
+	fragColor = col;
 }

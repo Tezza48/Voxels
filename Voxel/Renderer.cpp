@@ -22,6 +22,7 @@ Renderer::Renderer(Window & window) : window(window)
 	spriteShader = new GraphicsShader(
 		ContentHelper::LoadShaderSource("./assets/shaders/graphics/sprite.vert"),
 		ContentHelper::LoadShaderSource("./assets/shaders/graphics/sprite.frag"));
+	spriteShader->SetName("RenderSpriteShader");
 
 	struct VertexColorTex
 	{
@@ -46,6 +47,8 @@ Renderer::Renderer(Window & window) : window(window)
 	spriteQuad->Bind();
 	spriteQuad->SetVertices(vertices);
 	spriteQuad->Unbind();
+
+	spriteQuad->SetName("RendererSpriteQuad");
 
 #if DEBUG || _DEBUG
 	glDebugMessageCallback(OpenGLErrorCallback, nullptr);

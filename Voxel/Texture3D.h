@@ -13,4 +13,7 @@ public:
 	Texture3D(int width, int height, int depth, PixelFormat format);
 
 	void SetEmpty();
+
+	// Inherited via Texture
+	virtual void SetupParamaters() override;
 };

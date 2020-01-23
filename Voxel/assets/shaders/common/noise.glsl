@@ -3,9 +3,39 @@
 
 vec3 cosEase(vec3);
 float hash31(vec3);
+float hash21(vec2);
 
 #pragma include<"hash.glsl">
 #pragma include<"ease.glsl">
+
+float valueNoise21(vec2 p)
+{
+	vec2 lerpFactor = fract(p - 0.5);
+
+	float c00, c10, c01, c11;
+
+	if (lerpFactor.x >= 0.5) // use this cellPos and one to the right
+	{
+		p.x -= 1.0;
+	}
+	if (lerpFactor.y >= 0.5)
+	{
+		p.y -= 1.0;
+	}
+
+	lerpFactor = cosEase(lerpFactor.xyx).xy;
+
+	c00 = hash21(floor((p + vec2(0, 0))));
+	c10 = hash21(floor((p + vec2(1, 0))));
+
+	c01 = hash21(floor((p + vec2(0, 1))));
+	c11 = hash21(floor((p + vec2(1, 1))));
+	
+	float bottom = mix(c00, c10, lerpFactor.x);
+	float top = mix(c01, c11, lerpFactor.x);
+
+	return mix(bottom, top, lerpFactor.y);
+}
 
 // Generate value noise from a vec3.
 float valueNoise31(vec3 p)
@@ -66,10 +96,26 @@ float valueNoise31(vec3 p)
 	return mix(front, back, lerpFactor.z);
 }
 
+// Generate fractal value noise from a vec2.
+float fractalValueNoise21(vec2 p)
+{
+	float value = 0.0;
+	float amp = 0.5;
+
+	for (int i = 0, l = 3; i < l; i++)
+	{
+		value += valueNoise21(p) * amp;
+		amp *= 0.5;
+		p *= 2;
+	}
+
+	return value;
+}
+
 // Generate fractal value noise from a vec3.
 float fractalValueNoise31(vec3 p)
 {
-	float value = 0;
+	float value = 0.0;
 	float amp = 0.5;
 
 	for (int i = 0, l = 3; i < l; i++)

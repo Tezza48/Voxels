@@ -1,5 +1,8 @@
 #include "Texture.h"
+#include <iostream>
 
+using std::cout;
+using std::endl;
 using std::pair;
 
 Texture::Texture(GLenum bindTarget, PixelFormat format) : bindTarget(bindTarget), pixelFormat(format)
@@ -61,3 +64,13 @@ PixelFormat Texture::GetPixelFormat() const
 {
 	return pixelFormat;
 }
+
+void Texture::SetName(std::string name)
+{
+	name = "Texture(" + name + ")";
+
+	Bind();
+	glObjectLabel(GL_TEXTURE, texture, name.length(), name.c_str());
+	Unbind();
+}
+

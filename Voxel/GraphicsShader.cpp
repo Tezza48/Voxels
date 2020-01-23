@@ -19,3 +19,16 @@ GraphicsShader::~GraphicsShader()
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 }
+
+void GraphicsShader::SetName(std::string name)
+{
+	Shader::SetName(name);
+
+	auto vShaderName = "VertexShader(" + name + ")";
+	auto fShaderName = "FragmentShader(" + name + ")";
+
+	Bind();
+	glObjectLabel(GL_SHADER, vertexShader, vShaderName.length(), vShaderName.c_str());
+	glObjectLabel(GL_SHADER, fragmentShader, fShaderName.length(), fShaderName.c_str());
+	Unbind();
+}

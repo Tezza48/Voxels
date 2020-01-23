@@ -64,6 +64,9 @@ public:
 	// Inherited via IBindableResource
 	void Bind() const;
 	void Unbind() const;
+
+	// Inherited via RendererResource
+	virtual void SetName(std::string name) override;
 	
 private:
 	// Set the vertices of this mesh.

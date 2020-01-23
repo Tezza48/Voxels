@@ -37,6 +37,9 @@ public:
 	void SetUniform3i(const std::string & name, glm::ivec3 value) const;
 	void SetUniform4i(const std::string & name, glm::ivec4 value) const;
 
+	// Inherited via RendererResource
+	virtual void SetName(std::string name) override;
+
 protected:
 	// Create, Compile and Attach a shader of `type` from the given source code.
 	GLuint CreateShader(GLenum type, std::string source);

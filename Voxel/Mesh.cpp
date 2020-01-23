@@ -62,6 +62,29 @@ void Mesh::SetVertices(void * vertexData, int vertexSize, int numVertices)
 	glBufferData(GL_ARRAY_BUFFER, vertexSize * numVertices, vertexData, GL_STATIC_DRAW);
 }
 
+void Mesh::SetName(std::string name)
+{
+	Bind();
+
+	auto vaoName = "Mesh(" + name + "_VertexArray)";
+	glObjectLabel(GL_VERTEX_ARRAY, vertexArray, vaoName.length(), vaoName.c_str());
+
+	auto vBufferName = "Mesh(" + name + "_VertexBuffer)";
+	glObjectLabel(GL_ARRAY_BUFFER, vertexBuffer, vBufferName.length(), vBufferName.c_str());
+
+	Unbind();
+
+	for (int i = 0, l = indexBuffers.size(); i < l; i++)
+	{
+		auto iBufferName = "Mesh(" + name + "_IndexBuffer_" + std::to_string(i) + ")";
+		auto iBuffer = GetIndexBuffer(i).first;
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iBuffer);
+		glObjectLabel(GL_ELEMENT_ARRAY_BUFFER, iBuffer, iBufferName.length(), iBufferName.c_str());
+	}
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
 void Mesh::SetIndices(int buffer, unsigned int * indexData, int size)
 {
 	indexBufferSizes[buffer] = size;

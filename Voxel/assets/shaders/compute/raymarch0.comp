@@ -1,0 +1,137 @@
+#version 460
+
+float sdSphere(vec3, float);
+float sdPlane(vec3, vec3, float);
+float fractalValueNoise31(vec3 p);
+float valueNoise31(vec3 p);
+float fractalValueNoise21(vec2 p);
+
+#pragma include<"../common/sdfPrimitives.glsl">
+#pragma include<"../common/noise.glsl">
+
+layout(binding = 0) writeonly uniform image2D imageWriter;
+
+uniform float uTime;
+
+layout(local_size_x = 32, local_size_y = 32) in;
+
+int maxSteps = 128;
+float minDist = 0.01;
+float maxDist = 20.0;
+
+float map(vec3 p)
+{
+	float sph = sdSphere(p, 1);
+	float plane = sdPlane(p, vec3(0, 1, 0), -1);
+	float ground = plane + fractalValueNoise31(p) * 2;
+
+	float res = max(sph, fractalValueNoise31(p + uTime / 4) * 2 - 0.7);
+	res = min(res, ground) / 2;
+
+	return res;
+}
+
+float trace(vec3 ro, vec3 rd)
+{
+	float t = minDist;
+	float d = minDist;
+	int i = maxSteps;
+
+	while(i-- > 0)
+	{
+		if (t < minDist || t > maxDist) break;
+		d = map(ro + rd * t);
+		t += d;
+	}
+	
+	return t;
+}
+
+//float fixedTrace(vec3 ro, vec3 rd)
+//{
+//	float t = minDist;
+//	float d = minDist;
+//	float inc = maxDist / maxSteps;
+//	int i = maxSteps;
+//
+//	while (i-- > 0)
+//	{
+//		if (d < minDist) break;
+//		if(t > maxDist) { t = maxDist * 2; break;}
+//		d = map(ro + rd * t);
+//		t += inc;
+//	}
+//
+//	return t;
+//}
+
+
+vec3 calcNormal(vec3 p)
+{
+	vec2 h = vec2(0.001, 0);
+	float d = map(p);
+	return normalize(vec3(
+		map(p + h.xyy) - d,
+		map(p + h.yxy) - d,
+		map(p + h.yyx) - d)
+	);
+}
+
+mat3 lookAt(vec3 ro, vec3 ta)
+{
+	vec3 f = normalize(ta - ro);
+	vec3 r = cross(vec3(0, 1, 0), f);
+	vec3 u = cross(f, r);
+	return mat3(r, u, f);
+}
+void main()
+{
+	vec2 coordinates = gl_GlobalInvocationID.xy;
+	vec2 maxCoords = vec2(gl_NumWorkGroups.xy) * vec2(gl_WorkGroupSize.xy);
+
+	vec2 uv = (2 * coordinates - maxCoords) / maxCoords.y;
+
+	float a = uTime / 4;
+
+	vec3 ro = vec3(cos(a) * 4, 2, -sin(a) * 4);
+	vec3 rd = lookAt(ro, vec3(0)) * normalize(vec3(uv, 1));
+
+//	vec3 lightPos = vec3(3, 3, 0);
+//	vec3 lightTarget = vec3(sin(uTime), 0, 0);
+//	mat3 lightRot = lookAt(lightPos, lightTarget);
+//
+//	// ortho camera
+//
+//	float lightCamSize = 3;
+//	vec3 lightro = lightRot * vec3(uv.xy * lightCamSize, -3);
+//	vec3 lightrd = lightRot * vec3(0, 0, 1);
+
+	vec3 lightDir = normalize(vec3(-1, -1, -1));
+
+	vec4 color = vec4(0);
+
+	float t = trace(ro, rd);
+
+	if (t > maxDist)
+	{
+		color.rgb = vec3(0);
+	} else {
+		color.a = 1;
+
+		vec3 surfPos = ro + rd * t;
+
+		vec3 surfNormal = calcNormal(surfPos);
+
+		float lt = trace(surfPos, -lightDir);
+
+		float inShadow = step(lt, maxDist);
+
+		
+		vec3 dirLightEffect = mix(vec3(dot(surfNormal, -lightDir)), vec3(0), inShadow);
+
+		color.rgb = dirLightEffect;
+
+	}
+
+	imageStore(imageWriter, ivec2(coordinates), color);
+}

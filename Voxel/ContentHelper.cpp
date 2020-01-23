@@ -24,6 +24,7 @@ using std::stringstream;
 using std::regex;
 using std::cout;
 using std::endl;
+
 namespace fs = std::filesystem;
 
 // Load a source file and reccursively replace includes with the right file.

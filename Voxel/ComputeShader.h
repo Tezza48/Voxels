@@ -21,8 +21,10 @@ public:
 
 	void Dispatch(int x, int y, int z) const;
 
-	void BindImageTexture(Texture * texture, ImageAccess access);
+	void BindImageTexture(Texture * texture, ImageAccess access, int unit);
 
 	const GLuint GetProgram() const;
+
+	virtual void SetName(std::string name) override;
 };
 
