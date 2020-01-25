@@ -22,6 +22,7 @@
     <ClCompile Include="ComputeShader.cpp" />
     <ClCompile Include="ContentHelper.cpp" />
     <ClCompile Include="GraphicsShader.cpp" />
+    <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Noise2DComputeScene.cpp" />
@@ -41,6 +42,7 @@
     <ClInclude Include="ComputeShader.h" />
     <ClInclude Include="ContentHelper.h" />
     <ClInclude Include="GraphicsShader.h" />
+    <ClInclude Include="Input.h" />
     <ClInclude Include="Noise2DComputeScene.h" />
     <ClInclude Include="Noise3DComputeScene.h" />
     <ClInclude Include="RendererResource.h" />
