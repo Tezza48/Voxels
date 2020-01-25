@@ -15,13 +15,23 @@ void Input::Init(Window & window)
 
 void Input::Update()
 {
-	std::copy(thisKeyState.begin(), thisKeyState.end(), &lastKeyState);
-	std::copy(liveKeyState.begin(), liveKeyState.end(), &thisKeyState);
+	lastKeyState = thisKeyState;
+	thisKeyState = liveKeyState;
 }
 
 bool Input::GetKey(Key key)
 {
 	return thisKeyState[key];
+}
+
+bool Input::GetKeyUp(Key key)
+{
+	return !thisKeyState[key] && lastKeyState[key];
+}
+
+bool Input::GetKeyDown(Key key)
+{
+	return thisKeyState[key] && !lastKeyState[key];
 }
 
 void Input::KeyCallback(GLFWwindow * window, int key, int scancode, int action, int mods)

@@ -142,6 +142,8 @@ public:
 	static void Update();
 
 	static bool GetKey(Key key);
+	static bool GetKeyUp(Key key);
+	static bool GetKeyDown(Key key);
 	
 private:
 	static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);

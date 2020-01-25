@@ -1,6 +1,7 @@
 #include "Sandbox.h"
 #include "common.h"
 #include "ContentHelper.h"
+#include "Input.h"
 
 using namespace ContentHelper;
 

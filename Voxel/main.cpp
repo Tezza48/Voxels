@@ -13,6 +13,7 @@
 #include "Texture2D.h"
 #include "Sandbox.h"
 #include <iostream>
+#include "Input.h"
 
 using namespace glm;
 
@@ -52,12 +53,16 @@ int main(int argc, char** argv)
 
 	Sandbox scene;
 
+	Input::Init(window);
+
 	renderer.SetClearColor({ 0.1f, 0.1f, 0.3f, 1.0f });
 
 	scene.Start(window, renderer);
 
 	while (!window.ShouldWindowClose())
 	{
+		Input::Update();
+
 		renderer.Clear();
 
 		scene.Draw(window, renderer);
