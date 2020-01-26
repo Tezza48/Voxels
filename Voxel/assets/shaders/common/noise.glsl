@@ -4,6 +4,7 @@
 vec3 cosEase(vec3);
 float hash31(vec3);
 float hash21(vec2);
+vec2 hash22(vec2);
 
 #pragma include<"hash.glsl">
 #pragma include<"ease.glsl">
@@ -96,6 +97,26 @@ float valueNoise31(vec3 p)
 	return mix(front, back, lerpFactor.z);
 }
 
+// vec2 Voronoise
+float voronoise21(vec2 p)
+{
+    vec2 cellPos = fract(p);
+    vec2 cellId = floor(p);
+    
+    float len = 2.0;
+    
+    for (int y = -1; y < 2; y++)
+    {
+    	for (int x = -1; x < 2; x++)
+        {
+            vec2 offs = vec2(x, y);
+            len = min(len, length(cellPos + offs - hash22(cellId - offs)));
+        }
+    }
+    
+    return len;
+}
+
 // Generate fractal value noise from a vec2.
 float fractalValueNoise21(vec2 p)
 {
@@ -124,6 +145,21 @@ float fractalValueNoise31(vec3 p)
 		amp *= 0.5;
 		p *= 2;
 	}
+
+	return value;
+}
+
+float fractalVoronoise21(vec2 p)
+{
+    float value = 0.0;
+    float amp = 0.5;
+    
+    for(int i = 0; i < 6; i++)
+    {
+        value += voronoise21(p) * amp;
+        amp *= 0.5;
+		p *= 2;
+    }
 
 	return value;
 }

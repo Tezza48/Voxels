@@ -3,19 +3,21 @@
 
 #define PI 3.141
 
+#define COS_EASE(a) (1.0 - cos(a * PI)) / 2.0
+
 float cosEase(float a)
 {
-	return (1 - cos(a * PI)) / 2;
+	return COS_EASE(a);
 }
 
 vec2 cosEase(vec2 a)
 {
-	return (1 - cos(a * PI)) / 2;
+	return COS_EASE(a);
 }
 
 vec3 cosEase(vec3 a)
 {
-	return (1 - cos(a * PI)) / 2;
+	return COS_EASE(a);
 }
 
 #endif
